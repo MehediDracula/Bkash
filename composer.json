@@ -1,0 +1,25 @@
+{
+    "name": "mehedi/bkash",
+    "description": "Bkash payment gateway",
+    "keywords": ["bkash", "payment", "gateway", "php", "laravel"],
+    "homepage": "https://github.com/MehediDracula/Bkash",
+    "type": "package",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mehedi Hassan",
+            "email": "MehediDracula@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "illuminate/support": "5.0.* || 5.1.* || 5.2.* || 5.3.* || 5.4.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mehedi\\Bkash\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
