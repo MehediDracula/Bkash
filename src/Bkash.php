@@ -12,41 +12,37 @@ class Bkash
      * @var string
      */
     protected $base_url = 'http://www.bkashcluster.com:9080/dreamwave/merchant/trxcheck/sendmsg';
-
+    
     /**
-     * Check bkash payment transaction.
+     * Check bkash payment transaction id.
      *
      * @param string $transactionId
-     * @return bool
      * @throws Exception
      */
     public function check($transactionId)
     {
-        $fields = [
+        $data = [
             'user' => config('bkash.username'),
             'pass' => config('bkash.password'),
             'msisdn' => config('bkash.mobile'),
-            'trxid' => $transactionId
+            'trxid' => $transactionId,
         ];
 
-        $response = $this->callApi($fields);
-
-        return $this->apiResponse($response);
+        return $this->validateResponse(
+            $this->callApi($data)
+        );
     }
 
     /**
-     * Call the bkash api.
-     *
-     * @param array $fields
-     * @return array
+     * @param array $data
      */
-    protected function callApi($fields)
+    protected function callApi($data)
     {
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $this->base_url);
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($fields));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($ch);
@@ -58,10 +54,9 @@ class Bkash
 
     /**
      * @param array $response
-     * @return bool
      * @throws Exception
      */
-    protected function apiResponse($response)
+    protected function validateResponse($response)
     {
         switch ($response->trxStatus) {
             case '0010':
@@ -98,7 +93,7 @@ class Bkash
                 break;
 
             case '0000':
-                return true;
+                return $response;
         }
     }
 }

@@ -25,8 +25,6 @@ class BkashServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('bkash', function () {
-            return new Bkash;
-        });
+        $this->app->singleton('bkash', Bkash::class);
     }
 }
